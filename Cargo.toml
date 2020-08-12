@@ -1,5 +1,5 @@
 [package]
-name = "RadishMQ"
+name = "radishmq"
 version = "0.1.0"
 authors = ["Fload <fload2000@protonmail.com>"]
 edition = "2018"
