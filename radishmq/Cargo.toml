@@ -1,10 +1,10 @@
 [package]
 name = "radishmq"
-description = "MQTT broker"
-license = "Apache-2.0"
+description = "Fast and lightweight message broker written in Rust."
+license = "MIT"
 version = "0.1.0"
 authors = ["Florian Straubinger <github@flo-str.com>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
