@@ -8,7 +8,7 @@ use argparse::{ArgumentParser, Store};
 use std::net::{SocketAddr};
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), Box<dyn error::Error>> {
     let mut address: String = String::from("127.0.0.1");
     let mut port: String = String::from("1883");
 

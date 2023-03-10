@@ -6,12 +6,12 @@ FROM ekidd/rust-musl-builder:stable as builder
 
 RUN USER=root cargo new --bin radishmq
 WORKDIR ./radishmq
-COPY ./Cargo.lock ./Cargo.lock
-COPY ./Cargo.toml ./Cargo.toml
+COPY Cargo.lock ./Cargo.lock
+COPY Cargo.toml ./Cargo.toml
 RUN cargo build --release
 RUN rm src/*.rs
 
-ADD . ./
+ADD .. ./
 
 RUN rm ./target/x86_64-unknown-linux-musl/release/deps/radishmq*
 RUN cargo build --release
