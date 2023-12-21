@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16.0
+    environment:
+      POSTGRES_USER: radish
+      POSTGRES_PASSWORD: radish
+      POSTGRES_DB: radish
+    volumes:
+        - db_data:/var/lib/postgresql/data/
+    ports:
+        - "5432:5432"
+
+  radishmq:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    environment:
+      - HTTP_PORT=8080
+      - HTTP_ADDRESS=127.0.0.1
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=radish
+      - DB_PASSWORD=radish
+    ports:
+      - "8080:8080"
+    depends_on:
+        - db
+
+volumes:
+    db_data:

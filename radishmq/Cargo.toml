@@ -1,20 +1,22 @@
 [package]
-name = "radishmq"
-description = "Fast and lightweight message broker written in Rust."
-license = "MIT"
+name = "radish_mq"
 version = "0.1.0"
-authors = ["Florian Straubinger <github@flo-str.com>"]
+description = "Fast and lightweight message broker written in Rust."
+authors = ["Florian Straubinger <github@f-str.de>"]
+license-file = "LICENSE"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-tokio = { version = "=0.2.22", features = ["full"]}
-tokio-util = { version = "0.7.7", features = ["full"]}
-log = "0.4"
-thiserror = "1"
-argh = "0.1.3"
-confy = "0.5.1"
-pretty_env_logger = "0.4"
-bytes = "1.4.0"
-argparse = "0.2.2"
+tokio = { version = "1.33.0", features = ["full"]}
+tokio-util = { version = "0.7.9", features = ["full"]}
+log = "0.4.20"
+pretty_env_logger = "0.5.0"
+bytes = "1.5.0"
+actix-web = "4.4.0"
+refinery = { version = "0.8.11", features = ["tokio-postgres"]}
+tokio-postgres = "0.7.10"
+sqlx = { version = "0.7.2", features = [ "runtime-tokio", "tls-rustls", "postgres", "uuid" ] }
+serde = { version = "1.0.189", features = ["derive"] }
+lazy_static = "1.4.0"
+uuid = { version = "1.5.0", features = ["v4"] }
+futures = "0.3.28"
