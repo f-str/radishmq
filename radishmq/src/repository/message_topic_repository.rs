@@ -59,13 +59,10 @@ async fn get_message_topic_by_name(
     .fetch_optional(db_connection_pool)
     .await;
 
-    match topic {
-        Ok(topic) => topic,
-        Err(e) => {
-            println!("Error while fetching the message topic: {}", e);
-            None
-        }
-    }
+    topic.unwrap_or_else(|e| {
+        println!("Error while fetching the message topic: {}", e);
+        None
+    })
 }
 
 pub async fn publish_to_message_topic(

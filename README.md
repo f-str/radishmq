@@ -11,3 +11,10 @@
 5. Milestone: Libraries for more programming languages (Currently planned: Rust, Python, Go, JS, C#, C++)
 6. Milestone: Connector-Services for HTTP/gRPC (standalone µServices)
 7. Milestone: Data-Operations (Moving Averages/Mappings/...)
+
+/*
+TODO List:
+- Datatype für Topic-Content
+- Icon/Logo erstellen
+- README updaten
+  */
