@@ -1,39 +1,34 @@
-name: RadishMQ CI/CD
+name: Base CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - 'main'
-      - 'master'
-  pull_request:
-    branches:
-      - 'master'
+  workflow_call:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
       - name: Build
-        run: cd radishmq && cargo build --release
+        run: cargo build --release
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
       - name: Format check
-        run: cd radishmq && cargo fmt -- --check
+        run: cargo fmt -- --check
       - name: Clippy
-        run: cd radishmq && cargo clippy -- -D warnings
+        run: cargo clippy -- -D warnings
+
