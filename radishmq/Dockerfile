@@ -1,47 +1,39 @@
-# ------------------------------------------------------------------------------
-# Cargo Build Stage
-# ------------------------------------------------------------------------------
+# Stage 1: Build the application
+FROM rust:bookworm as builder
 
-FROM ekidd/rust-musl-builder:stable as builder
+WORKDIR /usr/src/app
 
-RUN USER=root cargo new --bin radishmq
-WORKDIR ./radishmq
-COPY Cargo.lock ./Cargo.lock
-COPY Cargo.toml ./Cargo.toml
-RUN cargo build --release
-RUN rm src/*.rs
+# Copy the Cargo.toml and Cargo.lock files to the build environment
+COPY Cargo.toml Cargo.lock ./
 
-ADD .. ./
+# Copy the source code to the build environment
+COPY src ./src
 
-RUN rm ./target/x86_64-unknown-linux-musl/release/deps/radishmq*
+# Build the application
 RUN cargo build --release
 
 
-# ------------------------------------------------------------------------------
-# Final Stage
-# ------------------------------------------------------------------------------
+# Stage 2: Create a lightweight production image
+FROM debian:bookworm-slim
 
-FROM alpine:latest
+RUN apt-get update && apt-get upgrade -y && apt-get install -y openssl
 
-ARG APP=/usr/src/app
+RUN adduser --system --group radishmq
 
-EXPOSE 1883
+WORKDIR /usr/src/app
 
-ENV TZ=Etc/UTC \
-    APP_USER=appuser
+# Copy the built binary from the previous stage
+COPY --from=builder /usr/src/app/target/release/radishmq ./
 
-RUN addgroup -S $APP_USER \
-    && adduser -S -g $APP_USER $APP_USER
+# Set the environment variable for logging
+ENV LOGGING_ENABLED true
 
-RUN apk update \
-    && apk add --no-cache ca-certificates tzdata \
-    && rm -rf /var/cache/apk/*
+# Expose the desired port
+EXPOSE 8080
 
-COPY --from=builder /home/rust/src/radishmq/target/x86_64-unknown-linux-musl/release/radishmq ${APP}/radishmq
+# Change the user to the non-root user
+USER radishmq
 
-RUN chown -R $APP_USER:$APP_USER ${APP}
-
-USER $APP_USER
-WORKDIR ${APP}
-
+# Start the application
 CMD ["./radishmq", "--address", "0.0.0.0"]
+
