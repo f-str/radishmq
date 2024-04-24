@@ -15,6 +15,7 @@ jobs:
           toolchain: stable
           override: true
       - name: Build
+        working-directory: ./radishmq
         run: cargo build --release
 
   lint:
@@ -28,7 +29,9 @@ jobs:
           toolchain: stable
           override: true
       - name: Format check
+        working-directory: ./radishmq
         run: cargo fmt -- --check
       - name: Clippy
+        working-directory: ./radishmq
         run: cargo clippy -- -D warnings
 
